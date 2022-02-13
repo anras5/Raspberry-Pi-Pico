@@ -2,6 +2,7 @@ from machine import UART
 import utime
 import json
 
+# load wifi ssid, wifi password, Ubidots API token and password from a secret file
 with open("env/env.json") as f:
     private_variables = json.load(f)
 
