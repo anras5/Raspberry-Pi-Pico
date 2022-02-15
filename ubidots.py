@@ -2,7 +2,7 @@ import utime
 from machine import Pin, I2C
 
 import wifi_handler
-from oled_display.oled_i2c import OLED_2inch23
+from oled_display.oled_spi import OLED_2inch23
 from environmentSensor.BME280 import BME280 # pressure, temp, hum
 from environmentSensor.ICM20948 import ICM20948 # accelerometer
 from environmentSensor.LTR390 import LTR390 # UV
@@ -29,13 +29,14 @@ bme280 = BME280()
 bme280.get_calib_param()
 
 screen = OLED_2inch23()
-
+screen.fill(screen.black)
+screen.text(f'Setup done', 1, 12, screen.white)
+screen.show()
 
 print("Setup done")
 
 try:
     while True:
-        utime.sleep(3)
         pressure = round(bme280.readData()[0], 2)
         temperature = round(bme280.readData()[1], 2)
         humidity = round(bme280.readData()[2], 2)
@@ -45,7 +46,6 @@ try:
         screen.text(f'Temp:     {temperature}', 1, 12, screen.white)
         screen.text(f'Humidity: {humidity}', 1, 22, screen.white)
         screen.text(f'Humidity:', 1, 22, screen.white)
-
         screen.show()
 
         variables = {
@@ -55,5 +55,6 @@ try:
         }
 
         data_sender.send_tcp(variables)
+        utime.sleep(5*60)
 except KeyboardInterrupt:
-    exit()
+    print("Keyboard Interrupt")
