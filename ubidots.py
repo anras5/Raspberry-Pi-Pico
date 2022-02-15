@@ -9,9 +9,12 @@ from environmentSensor.LTR390 import LTR390 # UV
 from environmentSensor.SGP40 import SGP40
 from environmentSensor.TSL2591 import TSL2591
 
-#####################################################
-
 data_sender = wifi_handler.WifiHandler()
+screen = OLED_2inch23()
+screen.fill(screen.black)
+screen.text(f'Connecting to wifi', 1, 12, screen.white)
+screen.show()
+
 data_sender.wifi_connect()
 
 
@@ -28,12 +31,9 @@ else:
 bme280 = BME280()
 bme280.get_calib_param()
 
-screen = OLED_2inch23()
 screen.fill(screen.black)
 screen.text(f'Setup done', 1, 12, screen.white)
 screen.show()
-
-print("Setup done")
 
 try:
     while True:

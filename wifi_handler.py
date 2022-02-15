@@ -27,7 +27,7 @@ class WifiHandler:
             if s is not None:
                 s = s.decode()
                 self.lst.append(s)
-                print(s)
+                # print(s)
 
                 if s.find(ack) >= 0:
                     return True
